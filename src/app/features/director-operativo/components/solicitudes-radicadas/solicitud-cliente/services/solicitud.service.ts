@@ -64,7 +64,7 @@ export interface AccionSolicitudResponse {
   providedIn: 'root'
 })
 export class SolicitudService {
-  private apiUrl = 'http://localhost:3000/api/director';
+  private apiUrl = 'https://banca-backend-1.onrender.com/api/director';
 
   constructor(private http: HttpClient) {}
 

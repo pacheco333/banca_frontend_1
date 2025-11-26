@@ -11,7 +11,7 @@
         class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
       />
       <p *ngIf="form.get('direccion')?.touched && form.get('direccion')?.invalid"
-         class="text-red-500 text-sm mt-1">Campo obligatorio</p>
+         class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 5 caracteres)</p>
     </div>
 
     <!-- Barrio y Departamento -->
@@ -22,6 +22,8 @@
           maxlength="100"
           (keypress)="alfanumerico($event)"
           class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
+        <p *ngIf="form.get('barrio')?.touched && form.get('barrio')?.invalid"
+           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 2 caracteres)</p>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
@@ -29,6 +31,8 @@
           maxlength="100"
           (keypress)="soloLetras($event)"
           class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
+        <p *ngIf="form.get('departamento')?.touched && form.get('departamento')?.invalid"
+           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
       </div>
     </div>
 
@@ -40,6 +44,8 @@
           maxlength="100"
           (keypress)="soloLetras($event)"
           class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
+        <p *ngIf="form.get('ciudad')?.touched && form.get('ciudad')?.invalid"
+           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">País</label>
@@ -47,6 +53,8 @@
           maxlength="100"
           (keypress)="soloLetras($event)"
           class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
+        <p *ngIf="form.get('pais')?.touched && form.get('pais')?.invalid"
+           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
       </div>
     </div>
 

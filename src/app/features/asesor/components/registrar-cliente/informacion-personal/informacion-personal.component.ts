@@ -64,7 +64,6 @@ export class InformacionPersonalComponent {
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
       ]],
       segundoApellido: ['', [
-        Validators.minLength(2),
         Validators.maxLength(50),
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/)
       ]],

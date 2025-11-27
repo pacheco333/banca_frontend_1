@@ -28,7 +28,15 @@ export class SaldosCajerosComponent implements OnInit {
     this.saldosService.obtenerSaldosCajeros().subscribe({
       next: (response) => {
         if (response.success) {
-          this.cajeros = response.cajeros;
+          // Asegurar que los valores numéricos sean realmente números
+          this.cajeros = (response.cajeros || []).map((c: CajeroDetalle) => ({
+            ...c,
+            saldoEfectivo: Number((c as any).saldoEfectivo) || 0,
+            transaccionesHoy: Number((c as any).transaccionesHoy) || 0,
+            dineroDepositado: Number((c as any).dineroDepositado) || 0,
+            dineroRetirado: Number((c as any).dineroRetirado) || 0,
+            cuentasAperturadas: Number((c as any).cuentasAperturadas) || 0
+          }));
           this.calcularTotales();
           this.fechaActualizacion = new Date();
         } else {

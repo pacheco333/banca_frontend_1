@@ -14,7 +14,7 @@ export interface SaldoOficinaResponse {
   providedIn: 'root'
 })
 export class OficinaService {
-  private apiUrl = 'http://localhost:3000/api/cajero-principal';
+  private apiUrl = 'https://banca-backend-1.onrender.com/api/saldos'; // Misma base que saldos
 
   constructor(private http: HttpClient) {}
 

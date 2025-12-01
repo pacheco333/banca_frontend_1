@@ -35,7 +35,7 @@ export class ReciboTrasladoComponent implements OnInit {
   ngOnInit() {
     this.authService.currentUser.subscribe(user => {
       if (user) {
-        this.cajeroActual = user.nombre;
+        this.cajeroActual = user.nombre_caja || user.nombre;
         console.log('🔑 Cajero actual:', this.cajeroActual);
         this.cargarTrasladosPendientes();
       }

@@ -22,12 +22,12 @@ export class TrasladoCajeroComponent {
   cajeroActual = '';
 
   cajerosDestino = [
-    'Cajero 01',
-    'Cajero 02',
-    'Cajero 03',
-    'Cajero 04',
-    'Cajero 05',
-    'Cajero Principal'
+    'Caja 1',
+    'Caja 2',
+    'Caja 3',
+    'Caja 4',
+    'Caja 5',
+    'Caja Principal'
   ];
 
   datosComprobante = {

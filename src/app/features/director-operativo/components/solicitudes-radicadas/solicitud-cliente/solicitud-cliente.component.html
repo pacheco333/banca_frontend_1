@@ -24,37 +24,37 @@
 
         <div>
           <label class="text-sm font-medium">Nombres</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.cliente.primer_nombre + (solicitud.cliente.segundo_nombre ? ' ' + solicitud.cliente.segundo_nombre : '')" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Correo</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3"
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400"
             [value]="solicitud.contacto.correo || 'No registrado'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Año de Nacimiento</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="obtenerAnioNacimiento(solicitud.cliente.fecha_nacimiento)" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Ocupación</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.actividad_economica.ocupacion || 'No registrada'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Ciudad</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.contacto.ciudad || 'No registrada'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Comentario Asesor</label>
-          <textarea readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 h-28 resize-none"
+          <textarea readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 h-28 resize-none text-gray-600"
             [value]="solicitud.comentario_asesor || 'Sin comentario'"></textarea>
         </div>
 
@@ -65,31 +65,31 @@
 
         <div>
           <label class="text-sm font-medium">Apellidos</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.cliente.primer_apellido + (solicitud.cliente.segundo_apellido ? ' ' + solicitud.cliente.segundo_apellido : '')" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Teléfono</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.contacto.telefono || 'No registrado'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Nacionalidad</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3"
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400"
             [value]="solicitud.cliente.nacionalidad || 'No registrada'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Dirección</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.contacto.direccion || 'No registrada'" />
         </div>
 
         <div>
           <label class="text-sm font-medium">Producto</label>
-          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3" 
+          <input readonly class="w-full mt-1 border border-gray-200 rounded-lg p-3 text-gray-400" 
             [value]="solicitud.tipo_cuenta" />
         </div>
 

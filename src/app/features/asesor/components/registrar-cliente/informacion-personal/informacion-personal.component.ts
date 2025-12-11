@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './informacion-personal.component.html',
 })
-export class InformacionPersonalComponent implements OnInit {
+export class InformacionPersonalComponent implements OnInit, OnChanges {
 
   // 📤 Emitir datos al padre solo cuando se presione "Guardar"
   @Input() datosIniciales: any; // ← AGREGAR ESTO para modo edición
@@ -86,6 +86,16 @@ export class InformacionPersonalComponent implements OnInit {
     if (this.datosIniciales) {
       console.log('📥 Cargando datos iniciales en Información Personal:', this.datosIniciales);
       this.form.patchValue(this.datosIniciales);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Detectar cambios en datosIniciales cuando se cambia de pestaña
+    if (changes['datosIniciales'] && !changes['datosIniciales'].firstChange) {
+      if (this.datosIniciales) {
+        console.log('🔄 Actualizando datos en Información Personal:', this.datosIniciales);
+        this.form.patchValue(this.datosIniciales);
+      }
     }
   }
 

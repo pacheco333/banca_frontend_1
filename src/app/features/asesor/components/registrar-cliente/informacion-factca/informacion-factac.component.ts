@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './informacion-factca.component.html',
 })
-export class FactaComponent implements OnInit {
+export class FactaComponent implements OnInit, OnChanges {
   // 🧠 Formulario reactivo FACTA/CRS
   form: FormGroup;
 
@@ -43,8 +43,18 @@ export class FactaComponent implements OnInit {
    ngOnInit() {
     // ← AGREGAR ESTE MÉTODO para cargar datos iniciales
     if (this.datosIniciales) {
-      console.log('📥 Cargando datos iniciales en Información Personal:', this.datosIniciales);
+      console.log('📥 Cargando datos iniciales en FACTA/CRS:', this.datosIniciales);
       this.form.patchValue(this.datosIniciales);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Detectar cambios en datosIniciales cuando se cambia de pestaña
+    if (changes['datosIniciales'] && !changes['datosIniciales'].firstChange) {
+      if (this.datosIniciales) {
+        console.log('🔄 Actualizando datos en FACTA/CRS:', this.datosIniciales);
+        this.form.patchValue(this.datosIniciales);
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contacto-personal.component.html',
 })
-export class ContactoPersonalComponent implements OnInit {
+export class ContactoPersonalComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   // 📤 Emite los datos al padre cuando se guarda
@@ -75,6 +75,16 @@ export class ContactoPersonalComponent implements OnInit {
     if (this.datosIniciales) {
       console.log('📥 Cargando datos iniciales en Contacto Personal:', this.datosIniciales);
       this.form.patchValue(this.datosIniciales);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Detectar cambios en datosIniciales cuando se cambia de pestaña
+    if (changes['datosIniciales'] && !changes['datosIniciales'].firstChange) {
+      if (this.datosIniciales) {
+        console.log('🔄 Actualizando datos en Contacto Personal:', this.datosIniciales);
+        this.form.patchValue(this.datosIniciales);
+      }
     }
   }
 

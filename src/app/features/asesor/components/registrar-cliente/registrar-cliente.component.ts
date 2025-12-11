@@ -210,7 +210,14 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
   }
 
   // Obtener datos iniciales para un subcomponente específico
+  // Prioriza datos guardados temporalmente (clienteData) sobre datosIniciales
+  // Retorna una copia para que Angular detecte los cambios
   obtenerDatosIniciales(nombre: string): any {
-    return this.datosIniciales[nombre];
+    // Si hay datos guardados temporalmente, usarlos primero
+    if (this.clienteData[nombre] && Object.keys(this.clienteData[nombre]).length > 0) {
+      return { ...this.clienteData[nombre] }; // Retornar copia
+    }
+    // Si no, usar datosIniciales (modo edición)
+    return this.datosIniciales[nombre] ? { ...this.datosIniciales[nombre] } : null;
   }
 }

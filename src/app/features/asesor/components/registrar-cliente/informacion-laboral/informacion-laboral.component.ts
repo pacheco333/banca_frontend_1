@@ -95,19 +95,27 @@ export class InformacionLaboralComponent implements OnInit, OnChanges {
       if (this.datosIniciales) {
         console.log('🔄 Actualizando datos en Información Laboral:', this.datosIniciales);
         this.form.patchValue(this.datosIniciales);
-        this.form.enable(); // ✅ Habilitar formulario para edición cuando cambia de pestaña
+          // Forzar habilitación de todo el formulario y de cada control (debug)
+          this.form.enable(); // ✅ Habilitar formulario para edición cuando cambia de pestaña
+          Object.keys(this.form.controls).forEach(key => this.form.get(key)?.enable());
+          console.log('🔔 Estado del formulario (enable after patch):', { enabled: this.form.enabled, disabled: this.form.disabled });
       }
     }
   }
    guardarSeccion() {
-    if (this.form.valid) {
-      this.formChange.emit(this.form.value);
-      // this.nextTab.emit();
-      alert('✅ Datos personales guardados correctamente');
-    } else {
-      this.form.markAllAsTouched();
-      alert('Por favor completa todos los campos obligatorios.');
-    }
+      console.log('🔐 Guardar sección - estado previo:', { enabled: this.form.enabled, disabled: this.form.disabled });
+      // Asegurar que el formulario esté habilitado antes de validar/emitir
+      this.form.enable();
+      Object.keys(this.form.controls).forEach(key => this.form.get(key)?.enable());
+      console.log('🔔 Guardar sección - estado tras enable:', { enabled: this.form.enabled, disabled: this.form.disabled });
+      if (this.form.valid) {
+        this.formChange.emit(this.form.value);
+        // this.nextTab.emit();
+        alert('✅ Datos personales guardados correctamente');
+      } else {
+        this.form.markAllAsTouched();
+        alert('Por favor completa todos los campos obligatorios.');
+      }
   }
 
   // 🔒 Método para permitir solo letras y espacios

@@ -1,96 +1,119 @@
 <div class="p-6 max-w-7xl mx-auto bg-white shadow-sm rounded-lg border border-gray-200">
-  <form [formGroup]="form" class="space-y-6">
+  <form [formGroup]="form" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    <!-- Profesión y Ocupación -->
-    <div class="grid grid-cols-2 gap-6">
+      <!-- Profesión -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Profesión</label>
-        <input
-          formControlName="profesion"
-          type="text"
-          placeholder="Ej: Ingeniero, Contador..."
-          maxlength="100"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
-        />
-        <p *ngIf="form.get('profesion')?.touched && form.get('profesion')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Ocupación</label>
-        <input
-          formControlName="ocupacion"
-          type="text"
-          placeholder="Ej: Empleado, Independiente..."
-          maxlength="100"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
-        />
-        <p *ngIf="form.get('ocupacion')?.touched && form.get('ocupacion')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
-      </div>
-    </div>
-
-    <!-- Código CIIU y Detalle de la actividad -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Código CIIU</label>
-        <input
-          formControlName="codigoCiiu"
-          type="text"
-          placeholder="Ej: 6201"
-          maxlength="6"
-          (keypress)="soloNumeros($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
-        />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Detalle de la Actividad</label>
-        <input
-          formControlName="detalleActividad"
-          type="text"
-          placeholder="Ej: Consultoría en software"
-          maxlength="500"
-          (keypress)="alfanumerico($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
-        />
-      </div>
-    </div>
-
-    <!-- Número de empleados y FACTA/CRS -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Número de Empleados</label>
-        <input
-          formControlName="numeroEmpleados"
-          type="number"
-          min="0"
-          max="999999"
-          (keypress)="soloNumeros($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
-        />
-        <p *ngIf="form.get('numeroEmpleados')?.touched && form.get('numeroEmpleados')?.invalid"
-           class="text-red-500 text-sm mt-1">Debe ser un número igual o mayor a 0</p>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">¿Aplica FACTA/CRS?</label>
-        <div class="flex gap-6">
-          <label class="flex items-center">
-            <input type="radio" formControlName="factaCrs" [value]="true" class="w-4 h-4 accent-gray-800" />
-            <span class="ml-2 text-sm">Sí</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="factaCrs" [value]="false" class="w-4 h-4 accent-gray-800" />
-            <span class="ml-2 text-sm">No</span>
-          </label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Profesión <span class="text-red-500">*</span>
+        </label>
+        <input id="profesion" type="text" formControlName="profesion" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'ocupacion')" maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Ingeniero">
+        <div class="text-red-500 text-xs mt-1" *ngIf="form.get('profesion')?.invalid && form.get('profesion')?.touched">
+          <span *ngIf="form.get('profesion')?.errors?.['required']">Campo obligatorio (mínimo 3 caracteres)</span>
+          <span *ngIf="form.get('profesion')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="form.get('profesion')?.errors?.['pattern']">Solo letras y espacios</span>
         </div>
       </div>
-    </div>
-  </form>
 
-  <div class="mt-6 flex justify-end">
-    <button (click)="guardarSeccion()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow">
-      Guardar
-    </button>
-  </div>
+      <!-- Ocupación -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Ocupación <span class="text-red-500">*</span>
+        </label>
+        <input id="ocupacion" type="text" formControlName="ocupacion" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'codigoCiiu')" maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Desarrollador">
+        <div class="text-red-500 text-xs mt-1" *ngIf="form.get('ocupacion')?.invalid && form.get('ocupacion')?.touched">
+          <span *ngIf="form.get('ocupacion')?.errors?.['required']">Campo obligatorio (mínimo 3 caracteres)</span>
+          <span *ngIf="form.get('ocupacion')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="form.get('ocupacion')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Código CIIU -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Código CIIU
+        </label>
+        <input id="codigoCiiu" type="text" formControlName="codigoCiiu" (keypress)="soloNumeros($event)"
+          (keydown)="onEnterKey($event, 'numeroEmpleados')" maxlength="6"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: 6201">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('codigoCiiu')?.invalid && form.get('codigoCiiu')?.touched">
+          <span *ngIf="form.get('codigoCiiu')?.errors?.['minlength']">Mínimo 4 dígitos</span>
+          <span *ngIf="form.get('codigoCiiu')?.errors?.['maxlength']">Máximo 6 dígitos</span>
+          <span *ngIf="form.get('codigoCiiu')?.errors?.['pattern']"> Solo números (4-6 dígitos)</span>
+        </div>
+      </div>
+
+      <!-- Número de Empleados -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Número de Empleados <span class="text-red-500">*</span>
+        </label>
+        <input id="numeroEmpleados" type="number" formControlName="numeroEmpleados"
+          (keydown)="onEnterKey($event, 'detalleActividad')" min="0" max="999999"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: 10">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('numeroEmpleados')?.invalid && form.get('numeroEmpleados')?.touched">
+          <span *ngIf="form.get('numeroEmpleados')?.errors?.['required']">Campo obligatorio</span>
+          <span *ngIf="form.get('numeroEmpleados')?.errors?.['min']">Debe ser mayor o igual a 0</span>
+          <span *ngIf="form.get('numeroEmpleados')?.errors?.['max']">Máximo 999999</span>
+        </div>
+      </div>
+
+      <!-- Detalle de Actividad -->
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Detalle de Actividad
+        </label>
+        <textarea id="detalleActividad" formControlName="detalleActividad" (keypress)="alfanumerico($event)"
+          maxlength="500" rows="3"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Describe brevemente la actividad económica..."></textarea>
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('detalleActividad')?.invalid && form.get('detalleActividad')?.touched">
+          <span *ngIf="form.get('detalleActividad')?.errors?.['minlength']">Mínimo 5 caracteres</span>
+          <span *ngIf="form.get('detalleActividad')?.errors?.['maxlength']">Máximo 500 caracteres</span>
+        </div>
+      </div>
+
+      <!-- FACTA/CRS -->
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          ¿Sujeto a FACTA/CRS? <span class="text-red-500">*</span>
+        </label>
+        <div class="flex gap-4">
+          <label class="flex items-center">
+            <input type="radio" formControlName="factaCrs" [value]="true" class="mr-2">
+            <span class="text-sm text-gray-700">Sí</span>
+          </label>
+          <label class="flex items-center">
+            <input type="radio" formControlName="factaCrs" [value]="false" class="mr-2">
+            <span class="text-sm text-gray-700">No</span>
+          </label>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="form.get('factaCrs')?.invalid && form.get('factaCrs')?.touched">
+          Campo obligatorio
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Botón Guardar -->
+    <div class="flex justify-end mt-6">
+      <button type="button" (click)="guardarSeccion()" [disabled]="!form.valid" [class]="form.valid 
+      ? 'px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors cursor-pointer' 
+      : 'px-6 py-2 bg-gray-300 text-gray-500 font-medium rounded-lg cursor-not-allowed'">
+        Guardar y Continuar
+      </button>
+    </div>
+
+  </form>
 </div>

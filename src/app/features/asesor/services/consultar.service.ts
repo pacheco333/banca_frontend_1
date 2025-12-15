@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 interface SolicitudBackend {
   id_solicitud: number;
@@ -22,7 +23,7 @@ interface ApiResponse {
   providedIn: 'root'
 })
 export class ConsultarService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/asesor/solicitudes';
+  private apiUrl = `${environment.apiUrl}/asesor/solicitudes`;
 
   constructor(private http: HttpClient) { }
 

@@ -36,7 +36,7 @@ export class CajeroLayoutComponent {
         { label: 'Retiro por ventanilla', ruta: '/cajero/retiro-ventanilla' },
         { label: 'Nota débito', ruta: '/cajero/nota-debito' },
         { label: 'Cancelación de cuenta', ruta: '/cajero/cancelacion-cuenta' },
-        { label: 'Traslado Cajero', ruta: '/cajero/traslado-cajero' },        // ← AGREGAR
+        { label: 'Traslado Cajero', ruta: '/cajero/traslado-cajero' },        //
         { label: 'Recibo Traslado', ruta: '/cajero/recibo-traslado' }
       ]
     }

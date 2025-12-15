@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SolicitudService, SolicitudDetalleCompleta } from './services/solicitud.service';
+import { SolicitudClienteService, SolicitudDetalleCompleta, SolicitudDetalleResponse, AccionSolicitudResponse } from './services/solicitud.service';
 
 @Component({
   selector: 'app-solicitud-cliente',
@@ -25,7 +25,7 @@ export class SolicitudClienteComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private solicitudService: SolicitudService
+    private solicitudService: SolicitudClienteService
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class SolicitudClienteComponent implements OnInit {
 
     this.cargando = true;
     this.solicitudService.obtenerDetalleCompleto(id).subscribe({
-      next: (resp) => {
+      next: (resp: SolicitudDetalleResponse) => {
         if (resp.success) {
           this.solicitud = resp.data;
         } else {
@@ -55,7 +55,7 @@ export class SolicitudClienteComponent implements OnInit {
         }
         this.cargando = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error detalle solicitud', err);
         this.error = 'Error al conectar con el servidor';
         this.cargando = false;
@@ -87,7 +87,7 @@ export class SolicitudClienteComponent implements OnInit {
 
     this.procesando = true;
     this.solicitudService.rechazarSolicitud(this.solicitud.id_solicitud, this.motivoRechazo).subscribe({
-      next: (resp) => {
+      next: (resp: AccionSolicitudResponse) => {
         if (resp.success) {
           alert('Solicitud rechazada exitosamente');
           this.mostrarModalRechazo = false;
@@ -97,7 +97,7 @@ export class SolicitudClienteComponent implements OnInit {
         }
         this.procesando = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al rechazar solicitud:', err);
         alert('Error al conectar con el servidor');
         this.procesando = false;
@@ -118,7 +118,7 @@ export class SolicitudClienteComponent implements OnInit {
 
     this.procesando = true;
     this.solicitudService.aprobarSolicitud(this.solicitud.id_solicitud).subscribe({
-      next: (resp) => {
+      next: (resp: AccionSolicitudResponse) => {
         if (resp.success) {
           alert('Solicitud aprobada exitosamente');
           this.mostrarModalAprobacion = false;
@@ -128,7 +128,7 @@ export class SolicitudClienteComponent implements OnInit {
         }
         this.procesando = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al aprobar solicitud:', err);
         alert('Error al conectar con el servidor');
         this.procesando = false;
@@ -159,7 +159,7 @@ export class SolicitudClienteComponent implements OnInit {
     if (!this.solicitud) return;
 
     this.solicitudService.descargarArchivo(this.solicitud.id_solicitud).subscribe({
-      next: (response) => {
+      next: (response: Blob) => {
         // Detectar tipo de archivo por content-type o extensión
         const contentType = response.type;
         let extension = 'pdf';
@@ -196,7 +196,7 @@ export class SolicitudClienteComponent implements OnInit {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error al descargar archivo:', err);
         if (err.status === 404) {
           alert('No hay archivo adjunto en esta solicitud');

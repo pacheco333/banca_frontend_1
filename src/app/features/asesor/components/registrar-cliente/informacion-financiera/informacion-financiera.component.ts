@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -47,6 +47,7 @@ export class InformacionFinancieraComponent implements OnInit {
     if (this.datosIniciales) {
       console.log('Cargando datos iniciales en Información Financiera:', this.datosIniciales);
       this.form.patchValue(this.datosIniciales);
+      this.form.enable(); // ✅ Habilitar formulario para edición
     }
 
     // 🔄 AUTO-GUARDADO: Emitir datos al padre cada vez que cambie el formulario

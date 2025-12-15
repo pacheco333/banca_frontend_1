@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -10,7 +10,14 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, ReactiveFormsModule, NgSelectModule],
   templateUrl: './contacto-personal.component.html',
 })
-export class ContactoPersonalComponent implements OnInit {
+export class ContactoPersonalComponent implements OnInit, OnChanges {
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['datosIniciales'] && !changes['datosIniciales'].firstChange) {
+      this.form.patchValue(this.datosIniciales);
+    }
+  }
+  
   form: FormGroup;
   @Input() datosIniciales: any;
   @Output() formChange = new EventEmitter();

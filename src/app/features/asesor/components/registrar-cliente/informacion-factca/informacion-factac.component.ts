@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -42,6 +42,18 @@ export class FactaComponent implements OnInit {
     if (this.datosIniciales) {
       console.log('📥 Cargando datos iniciales en FACTA/CRS:', this.datosIniciales);
       this.form.patchValue(this.datosIniciales);
+      this.form.enable(); // ✅ Habilitar formulario para edición
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Detectar cambios en datosIniciales cuando se cambia de pestaña
+    if (changes['datosIniciales'] && !changes['datosIniciales'].firstChange) {
+      if (this.datosIniciales) {
+        console.log('🔄 Actualizando datos en FACTA/CRS:', this.datosIniciales);
+        this.form.patchValue(this.datosIniciales);
+        this.form.enable(); // ✅ Habilitar formulario para edición cuando cambia de pestaña
+      }
     }
 
     // 🔄 AUTO-GUARDADO: Emitir datos al padre cada vez que cambie el formulario

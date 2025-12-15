@@ -68,9 +68,8 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar roles:', error);
-        // Si falla, usar roles por defecto
+        // Si falla, usar roles por defecto (solo los 4 roles válidos del sistema)
         this.rolesDisponibles = [
-          { id_rol: 1, nombre: 'Administrador', descripcion: 'Acceso completo' },
           { id_rol: 2, nombre: 'Asesor', descripcion: 'Gestión de solicitudes' },
           { id_rol: 3, nombre: 'Cajero', descripcion: 'Operaciones de caja' },
           { id_rol: 4, nombre: 'Director-operativo', descripcion: 'Aprobación de solicitudes'},
@@ -135,9 +134,6 @@ export class LoginComponent implements OnInit {
     const normalizedRole = (userRole || '').toString().trim().toLowerCase();
 
     const routeMap: Record<string, string> = {
-      // Administrador
-      'administrador': '/administrador',
-      'admin': '/administrador',
       // Asesor
       'asesor': '/asesor',
       // Cajero

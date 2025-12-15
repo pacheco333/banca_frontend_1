@@ -1,251 +1,288 @@
 <div class="p-6 max-w-7xl mx-auto bg-white shadow-sm rounded-lg border border-gray-200">
-  <form [formGroup]="form" class="space-y-6">
+  <form [formGroup]="form" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    <!-- Primer Nombre y Segundo Nombre -->
-    <div class="grid grid-cols-2 gap-6">
+      <!-- Tipo de Documento -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Primer nombre</label>
-        <input formControlName="primerNombre" type="text" placeholder="Charlene Reed"
-          maxlength="50"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
-        <p *ngIf="form.get('primerNombre')?.touched && form.get('primerNombre')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 2 caracteres)</p>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Segundo nombre</label>
-        <input formControlName="segundoNombre" type="text" placeholder="Charlene Reed"
-          maxlength="50"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
-        <p *ngIf="form.get('segundoNombre')?.touched && form.get('segundoNombre')?.invalid"
-           class="text-red-500 text-sm mt-1">Mínimo 2 caracteres</p>
-      </div>
-    </div>
-
-    <!-- Primer Apellido y Segundo Apellido -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Primer apellido</label>
-        <input formControlName="primerApellido" type="text" placeholder="Charlene Reed"
-          maxlength="50"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
-        <p *ngIf="form.get('primerApellido')?.touched && form.get('primerApellido')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 2 caracteres)</p>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Segundo apellido</label>
-        <input formControlName="segundoApellido" type="text" placeholder="Charlene Reed"
-          maxlength="50"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
-        <p *ngIf="form.get('segundoApellido')?.touched && form.get('segundoApellido')?.invalid"
-           class="text-red-500 text-sm mt-1">Máximo 50 caracteres</p>
-      </div>
-    </div>
-
-    <!-- Línea separadora -->
-    <hr class="border-t border-gray-300">
-
-    <!-- Tipo de Documento y Número de Documento -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de documento</label>
-        <p *ngIf="form.get('tipoDocumento')?.touched && form.get('tipoDocumento')?.invalid"
-           class="text-red-500 text-sm mb-1">Campo obligatorio</p>
-        <div class="grid grid-cols-4 gap-3">
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="CC" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">C.C.</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="TI" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">T.I.</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="R.Civil" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">R.Civil</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="PPT" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">PPT</span>
-          </label>
-        </div>
-        <div class="grid grid-cols-3 gap-3 mt-2">
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="Pasaporte" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Pasaporte</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="CarneDiplomatico" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Carné diplomático</span>
-          </label>
-          <label class="flex items-center">
-            <input type="radio" formControlName="tipoDocumento" value="CedulaExtranjeria" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Cedula de extranjería</span>
-          </label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Tipo de Documento <span class="text-red-500">*</span>
+        </label>
+        <select id="tipoDocumento" formControlName="tipoDocumento" (keydown)="onEnterKey($event, 'numeroDocumento')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccione...</option>
+          <option value="CC">Cédula de Ciudadanía</option>
+          <option value="CE">Cédula de Extranjería</option>
+          <option value="PA">Pasaporte</option>
+          <option value="TI">Tarjeta de Identidad</option>
+        </select>
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('tipoDocumento')?.invalid && form.get('tipoDocumento')?.touched">
+          Campo obligatorio
         </div>
       </div>
 
+      <!-- Número de Documento -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Número de documento</label>
-        <input formControlName="numeroDocumento" type="text" placeholder="1110114641"
-          maxlength="11"
-          (keypress)="soloNumeros($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition" />
-        <p *ngIf="form.get('numeroDocumento')?.touched && form.get('numeroDocumento')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (entre 6 y 11 dígitos)</p>
-      </div>
-    </div>
-
-    <!-- Lugar de Expedición y Fecha de Expedición -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Lugar de expedición</label>
-        <input formControlName="lugarExpedicion" type="text"
-          maxlength="100"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5" />
-        <p *ngIf="form.get('lugarExpedicion')?.touched && form.get('lugarExpedicion')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de expedición</label>
-        <input formControlName="fechaExpedicion" type="date"
-          [max]="fechaHoy"
-          class="w-full border border-gray-300 rounded-lg p-2.5" />
-        <p *ngIf="form.get('fechaExpedicion')?.touched && form.get('fechaExpedicion')?.hasError('required')"
-           class="text-red-500 text-sm mt-1">Campo obligatorio</p>
-        <p *ngIf="form.get('fechaExpedicion')?.touched && form.get('fechaExpedicion')?.hasError('fechaFutura')"
-           class="text-red-500 text-sm mt-1">La fecha no puede ser futura</p>
-        <p *ngIf="form.get('fechaExpedicion')?.touched && form.get('fechaExpedicion')?.hasError('expedicionAnteriorANacimiento')"
-           class="text-red-500 text-sm mt-1">Debe ser posterior a la fecha de nacimiento</p>
-      </div>
-    </div>
-
-    <!-- Línea separadora -->
-    <hr class="border-t border-gray-300">
-
-    <!-- Ciudad de nacimiento y Nacionalidad -->
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad de nacimiento</label>
-        <input formControlName="ciudadNacimiento" type="text"
-          maxlength="100"
-          (keypress)="soloLetras($event)"
-          class="w-full border border-gray-300 rounded-lg p-2.5" />
-        <p *ngIf="form.get('ciudadNacimiento')?.touched && form.get('ciudadNacimiento')?.invalid"
-           class="text-red-500 text-sm mt-1">Campo obligatorio (mínimo 3 caracteres)</p>
-      </div>
-
-      <div>
-        <!-- Nacionalidad -->
-        <label class="block text-sm font-medium text-gray-700 mb-1">Nacionalidad</label>
-        <p *ngIf="form.get('nacionalidad')?.touched && form.get('nacionalidad')?.invalid"
-           class="text-red-500 text-sm mb-1">Campo obligatorio</p>
-        <div class="flex gap-3 flex-wrap items-center">
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="nacionalidad" value="Colombiano" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Colombiano</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="nacionalidad" value="Estadounidense" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Estadounidense</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="nacionalidad" value="Otra" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Otra, ¿Cuál?</span>
-          </label>
-          <input formControlName="otraNacionalidad" type="text"
-            maxlength="100"
-            (keypress)="soloLetras($event)"
-            class="flex-1 min-w-[200px] border border-gray-300 rounded-lg p-2.5" />
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Número de Documento <span class="text-red-500">*</span>
+        </label>
+        <input id="numeroDocumento" type="text" formControlName="numeroDocumento" (keypress)="soloNumeros($event)"
+          (keydown)="onEnterKey($event, 'lugarExpedicion')" maxlength="11"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: 1234567890">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('numeroDocumento')?.invalid && form.get('numeroDocumento')?.touched">
+          <span *ngIf="form.get('numeroDocumento')?.errors?.['required']">Campo obligatorio (entre 6 y 11
+            dígitos)</span>
+          <span *ngIf="form.get('numeroDocumento')?.errors?.['minlength']">Mínimo 6 dígitos</span>
+          <span *ngIf="form.get('numeroDocumento')?.errors?.['maxlength']">Máximo 11 dígitos</span>
+          <span *ngIf="form.get('numeroDocumento')?.errors?.['pattern']">Solo números</span>
         </div>
       </div>
-    </div>
 
-    <!-- Fecha de nacimiento, Género y Estado civil -->
-    <div class="grid grid-cols-2 gap-6">
-      <!-- Columna izquierda: Fecha de nacimiento y Género -->
-      <div class="grid grid-cols-2 gap-6">
-        <!-- Fecha de nacimiento -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de nacimiento</label>
-          <input formControlName="fechaNacimiento" type="date"
-            [max]="fechaHoy"
-            class="w-full border border-gray-300 rounded-lg p-2.5" />
-          <p *ngIf="form.get('fechaNacimiento')?.touched && form.get('fechaNacimiento')?.invalid"
-             class="text-red-500 text-sm mt-1">Campo obligatorio</p>
-        </div>
-        <!-- Género -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Género</label>
-          <p *ngIf="form.get('genero')?.touched && form.get('genero')?.invalid"
-             class="text-red-500 text-sm mb-1">Campo obligatorio</p>
-          <div class="flex gap-6">
-            <label class="flex items-center">
-              <input type="radio" formControlName="genero" value="F" class="w-4 h-4 accent-gray-800">
-              <span class="ml-2 text-sm">F</span>
-            </label>
-            <label class="flex items-center">
-              <input type="radio" formControlName="genero" value="M" class="w-4 h-4 accent-gray-800">
-              <span class="ml-2 text-sm">M</span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <!-- Columna derecha: Estado civil (alineado con Nacionalidad) -->
+      <!-- Lugar de Expedición -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Estado civil</label>
-        <p *ngIf="form.get('estadoCivil')?.touched && form.get('estadoCivil')?.invalid"
-           class="text-red-500 text-sm mb-1">Campo obligatorio</p>
-        <div class="flex gap-3 flex-wrap items-center">
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="estadoCivil" value="Soltero" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Soltero</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="estadoCivil" value="Casado" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Casado</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="estadoCivil" value="Unión Libre" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Unión Libre</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="estadoCivil" value="Divorciado" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Divorciado</span>
-          </label>
-          <label class="flex items-center whitespace-nowrap">
-            <input type="radio" formControlName="estadoCivil" value="Viudo" class="w-4 h-4 accent-gray-800">
-            <span class="ml-2 text-sm">Viudo</span>
-          </label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Lugar de Expedición <span class="text-red-500">*</span>
+        </label>
+        <input id="lugarExpedicion" type="text" formControlName="lugarExpedicion" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'ciudadNacimiento')" maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Bogotá">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('lugarExpedicion')?.invalid && form.get('lugarExpedicion')?.touched">
+          <span *ngIf="form.get('lugarExpedicion')?.errors?.['required']">Campo obligatorio (mínimo 3 caracteres)</span>
+          <span *ngIf="form.get('lugarExpedicion')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="form.get('lugarExpedicion')?.errors?.['pattern']">Solo letras y espacios</span>
         </div>
       </div>
+
+      <!-- Ciudad de Nacimiento -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Ciudad de Nacimiento <span class="text-red-500">*</span>
+        </label>
+        <input id="ciudadNacimiento" type="text" formControlName="ciudadNacimiento" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'fechaNacimiento')" maxlength="100"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Medellín">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('ciudadNacimiento')?.invalid && form.get('ciudadNacimiento')?.touched">
+          <span *ngIf="form.get('ciudadNacimiento')?.errors?.['required']">Campo obligatorio (mínimo 3
+            caracteres)</span>
+          <span *ngIf="form.get('ciudadNacimiento')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="form.get('ciudadNacimiento')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Fecha de Nacimiento -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Fecha de Nacimiento <span class="text-red-500">*</span>
+        </label>
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" [max]="fechaHoy"
+          (keydown)="onEnterKey($event, 'fechaExpedicion')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('fechaNacimiento')?.invalid && form.get('fechaNacimiento')?.touched">
+          <span *ngIf="form.get('fechaNacimiento')?.errors?.['required']">Campo obligatorio</span>
+          <span *ngIf="form.get('fechaNacimiento')?.errors?.['edadMinima']">
+            Debe ser mayor de {{ form.get('fechaNacimiento')?.errors?.['edadMinima']?.requerida }} años
+          </span>
+        </div>
+      </div>
+
+      <!-- Fecha de Expedición -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Fecha de Expedición <span class="text-red-500">*</span>
+        </label>
+        <input id="fechaExpedicion" type="date" formControlName="fechaExpedicion" [max]="fechaHoy"
+          (keydown)="onEnterKey($event, 'primerNombre')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('fechaExpedicion')?.invalid && form.get('fechaExpedicion')?.touched">
+          <span *ngIf="form.get('fechaExpedicion')?.errors?.['required']">Campo obligatorio</span>
+          <span *ngIf="form.get('fechaExpedicion')?.errors?.['fechaFutura']">La fecha no puede ser futura</span>
+          <span *ngIf="form.get('fechaExpedicion')?.errors?.['expedicionMuyTemprana']">
+            Debe ser al menos 16 años después de la fecha de nacimiento
+          </span>
+        </div>
+      </div>
+
+      <!-- Primer Nombre -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Primer Nombre <span class="text-red-500">*</span>
+        </label>
+        <input id="primerNombre" type="text" formControlName="primerNombre" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'segundoNombre')" maxlength="50"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Juan">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('primerNombre')?.invalid && form.get('primerNombre')?.touched">
+          <span *ngIf="form.get('primerNombre')?.errors?.['required']">Campo obligatorio (mínimo 2 caracteres)</span>
+          <span *ngIf="form.get('primerNombre')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          <span *ngIf="form.get('primerNombre')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+          <span *ngIf="form.get('primerNombre')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Segundo Nombre -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Segundo Nombre
+        </label>
+        <input id="segundoNombre" type="text" formControlName="segundoNombre" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'primerApellido')" maxlength="50"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Opcional">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('segundoNombre')?.invalid && form.get('segundoNombre')?.touched">
+          <span *ngIf="form.get('segundoNombre')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          <span *ngIf="form.get('segundoNombre')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+          <span *ngIf="form.get('segundoNombre')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Primer Apellido -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Primer Apellido <span class="text-red-500">*</span>
+        </label>
+        <input id="primerApellido" type="text" formControlName="primerApellido" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'segundoApellido')" maxlength="50"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Pérez">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('primerApellido')?.invalid && form.get('primerApellido')?.touched">
+          <span *ngIf="form.get('primerApellido')?.errors?.['required']">Campo obligatorio</span>
+          <span *ngIf="form.get('primerApellido')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          <span *ngIf="form.get('primerApellido')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+          <span *ngIf="form.get('primerApellido')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Segundo Apellido -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Segundo Apellido
+        </label>
+        <input id="segundoApellido" type="text" formControlName="segundoApellido" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'genero')" maxlength="50"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Opcional">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('segundoApellido')?.invalid && form.get('segundoApellido')?.touched">
+          <span *ngIf="form.get('segundoApellido')?.errors?.['minlength']">Mínimo 2 caracteres</span>
+          <span *ngIf="form.get('segundoApellido')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+          <span *ngIf="form.get('segundoApellido')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Género -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Género <span class="text-red-500">*</span>
+        </label>
+        <select id="genero" formControlName="genero" (keydown)="onEnterKey($event, 'nacionalidad')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccione...</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <div class="text-red-500 text-xs mt-1" *ngIf="form.get('genero')?.invalid && form.get('genero')?.touched">
+          Campo obligatorio
+        </div>
+      </div>
+
+      <!-- Nacionalidad -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nacionalidad <span class="text-red-500">*</span>
+        </label>
+        <select id="nacionalidad" formControlName="nacionalidad"
+          (keydown)="onEnterKey($event, form.get('nacionalidad')?.value === 'Otra' ? 'otraNacionalidad' : 'estadoCivil')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccione...</option>
+          <option value="Colombiana">Colombiana</option>
+          <option value="Otra">Otra</option>
+        </select>
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('nacionalidad')?.invalid && form.get('nacionalidad')?.touched">
+          Campo obligatorio
+        </div>
+      </div>
+
+      <!-- Otra Nacionalidad (condicional) -->
+      <div *ngIf="form.get('nacionalidad')?.value === 'Otra'">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Especifique Nacionalidad <span class="text-red-500">*</span>
+        </label>
+        <input id="otraNacionalidad" type="text" formControlName="otraNacionalidad" (keypress)="soloLetras($event)"
+          (keydown)="onEnterKey($event, 'estadoCivil')" maxlength="50"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Venezolana">
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('otraNacionalidad')?.invalid && form.get('otraNacionalidad')?.touched">
+          <span *ngIf="form.get('otraNacionalidad')?.errors?.['required']">Campo obligatorio</span>
+          <span *ngIf="form.get('otraNacionalidad')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+          <span *ngIf="form.get('otraNacionalidad')?.errors?.['pattern']">Solo letras y espacios</span>
+        </div>
+      </div>
+
+      <!-- Estado Civil -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Estado Civil <span class="text-red-500">*</span>
+        </label>
+        <select id="estadoCivil" formControlName="estadoCivil" (keydown)="onEnterKey($event, 'grupoEtnico')"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccione...</option>
+          <option value="Soltero">Soltero/a</option>
+          <option value="Casado">Casado/a</option>
+          <option value="Union Libre">Unión Libre</option>
+          <option value="Divorciado">Divorciado/a</option>
+          <option value="Viudo">Viudo/a</option>
+        </select>
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('estadoCivil')?.invalid && form.get('estadoCivil')?.touched">
+          Campo obligatorio
+        </div>
+      </div>
+
+      <!-- Grupo Étnico -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Grupo Étnico <span class="text-red-500">*</span>
+        </label>
+        <select id="grupoEtnico" formControlName="grupoEtnico"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccione</option>
+          <option value="Indígena">Indígena</option>
+          <option value="Gitano">Gitano</option>
+          <option value="Raizal">Raizal</option>
+          <option value="Palenquero">Palenquero</option>
+          <option value="Afrocolombiano">Afrocolombiano</option>
+          <option value="Ninguno">Ninguno</option>
+        </select>
+        <div class="text-red-500 text-xs mt-1"
+          *ngIf="form.get('grupoEtnico')?.invalid && form.get('grupoEtnico')?.touched">
+          Campo obligatorio
+        </div>
+      </div>
+
     </div>
 
-
-    <!-- Grupo Étnico -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Grupo étnico</label>
-      <p *ngIf="form.get('grupoEtnico')?.touched && form.get('grupoEtnico')?.invalid"
-         class="text-red-500 text-sm mb-1">Campo obligatorio</p>
-      <div class="grid grid-cols-6 gap-6">
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Indígena" class="w-4 h-4"><span class="ml-2">Indígena</span></label>
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Gitano" class="w-4 h-4"><span class="ml-2">Gitano o Rom</span></label>
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Raizal" class="w-4 h-4"><span class="ml-2">Raizal</span></label>
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Palenquero" class="w-4 h-4"><span class="ml-2">Palenquero</span></label>
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Afrocolombiano" class="w-4 h-4"><span class="ml-2">Comunidad negra o afrocolombiana</span></label>
-        <label class="flex items-center"><input type="radio" formControlName="grupoEtnico" value="Ninguna" class="w-4 h-4"><span class="ml-2">Ninguna</span></label>
-      </div>
+    <!-- Botón Guardar -->
+    <div class="flex justify-end mt-6">
+      <button type="button" (click)="guardarSeccion()" [disabled]="!form.valid" [class]="form.valid 
+      ? 'px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors cursor-pointer' 
+      : 'px-6 py-2 bg-gray-300 text-gray-500 font-medium rounded-lg cursor-not-allowed'">
+        Guardar y Continuar
+      </button>
     </div>
 
   </form>
-
-  <div class="mt-8 flex justify-end">
-    <button (click)="guardarSeccion()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-lg font-medium">
-      Guardar
-    </button>
-  </div>
 </div>

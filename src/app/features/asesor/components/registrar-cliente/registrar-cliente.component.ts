@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AsesorService } from '../../../asesor/services/asesor.service';
 
-// 🧩 Subcomponentes
+// Subcomponentes
 import { InformacionPersonalComponent } from './informacion-personal/informacion-personal.component';
 import { ContactoPersonalComponent } from './contacto-personal/contacto-personal.component';
 import { InformacionLaboralComponent } from './informacion-laboral/informacion-laboral.component';
@@ -35,7 +35,7 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
   modo: 'nuevo' | 'editar' = 'nuevo';
   idCliente: number | null = null;
   cargando: boolean = false;
-  
+
   // 🧠 Datos temporales de todos los subformularios
   clienteData: any = {
     datosPersonales: null,
@@ -68,7 +68,7 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     private asesorService: AsesorService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Verificar si estamos en modo edición
@@ -88,7 +88,7 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
       next: (respuesta) => {
         if (respuesta.success && respuesta.data) {
           const cliente = respuesta.data;
-          
+
           // Organizar datos en la estructura esperada por los subcomponentes
           this.datosIniciales = {
             datosPersonales: {
@@ -128,12 +128,12 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
       }
     });
   }
-  
+
   cancelarEdicion() {
-  if (confirm('¿Estás seguro de que quieres cancelar la edición? Los cambios no guardados se perderán.')) {
-    this.router.navigate(['/asesor/consultar-cliente']);
+    if (confirm('¿Estás seguro de que quieres cancelar la edición? Los cambios no guardados se perderán.')) {
+      this.router.navigate(['/asesor/consultar-cliente']);
+    }
   }
-}
   // 🔁 Cambiar pestaña manualmente
   cambiarPestana(nombre: string) {
     this.pestanaActiva = nombre;
@@ -160,7 +160,7 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
 
   // ✅ Validar que todo esté diligenciado antes de registrar
   datosCompletos(): boolean {
-    return Object.values(this.clienteData).every((seccion) => 
+    return Object.values(this.clienteData).every((seccion) =>
       seccion && Object.keys(seccion).length > 0
     );
   }
@@ -168,8 +168,8 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
   // 🚀 Registrar o actualizar cliente
   registrarCliente() {
     if (!this.datosCompletos()) {
-      alert('⚠️ Debes completar todos los módulos antes de ' + 
-            (this.modo === 'nuevo' ? 'registrar' : 'actualizar') + ' el cliente.');
+      alert('⚠️ Debes completar todos los módulos antes de ' +
+        (this.modo === 'nuevo' ? 'registrar' : 'actualizar') + ' el cliente.');
       return;
     }
 

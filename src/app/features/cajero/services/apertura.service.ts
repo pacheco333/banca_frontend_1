@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 export interface VerificarClienteRequest {
   tipoDocumento: string;
@@ -40,7 +41,7 @@ export interface AperturarCuentaResponse {
   providedIn: 'root'
 })
 export class AperturaService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/cajero/apertura';
+  private apiUrl = `${environment.apiUrl}/cajero/apertura`;
 
   constructor(
     private http: HttpClient,

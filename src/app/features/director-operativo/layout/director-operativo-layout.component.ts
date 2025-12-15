@@ -10,7 +10,7 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
   template: `
     <div class="flex h-screen bg-gray-100 overflow-hidden">
       <!-- Sidebar -->
-      <app-sidebar [menuItems]="asesorMenuItems"></app-sidebar>
+      <app-sidebar [menuItems]="directorOperativoMenuItems"></app-sidebar>
 
       <!-- Contenido principal -->
       <main class="flex-1 min-w-0 w-full overflow-x-hidden ">
@@ -28,12 +28,13 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
   `,
 })
 export class DirectorOperativoLayoutComponent {
-  asesorMenuItems = [
+  directorOperativoMenuItems = [
     {
-      titulo: 'Menu director operativo',
+      titulo: 'Menu Director Operativo',
       items: [
-        { label: 'Solicitudes Radicadas', ruta: '/consultar-solicitudes/consultar-solicitudes.component.html' },
+        { label: 'Solicitudes Radicadas', ruta: 'consultar-solicitudes' },
       ],
     },
   ];
 }
+

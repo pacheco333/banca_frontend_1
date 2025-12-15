@@ -58,7 +58,8 @@ form label {
 }
 
 /* ✏️ Entradas y selects */
-input, select {
+input,
+select {
   width: 100%;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
@@ -66,14 +67,16 @@ input, select {
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: var(--color-primary);
   outline: none;
   box-shadow: 0 0 4px rgba(46, 91, 255, 0.3);
 }
 
 /* 🔘 Botones principales */
-.btn-next, .btn-save {
+.btn-next,
+.btn-save {
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
   border: none;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service'; // ← NUEVO: Importar AuthService
+import { environment } from '../../../../environments/environment';
 
 export interface AplicarNotaDebitoRequest {
   idCuenta: number;
@@ -29,7 +30,7 @@ export interface AplicarNotaDebitoResponse {
   providedIn: 'root'
 })
 export class NotaDebitoService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/cajero/nota-debito';
+  private apiUrl = `${environment.apiUrl}/cajero/nota-debito`;
 
   constructor(
     private http: HttpClient,

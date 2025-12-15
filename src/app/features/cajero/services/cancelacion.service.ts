@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface CancelarCuentaRequest {
   numeroCuenta: string;
@@ -26,7 +27,7 @@ export interface CancelarCuentaResponse {
   providedIn: 'root'
 })
 export class CancelacionService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/cajero/cancelacion';
+  private apiUrl = `${environment.apiUrl}/cajero/cancelacion`;
 
   constructor(private http: HttpClient) {}
 

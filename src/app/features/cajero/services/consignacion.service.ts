@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 export interface ProcesarConsignacionRequest {
   numeroCuenta: string;
@@ -34,10 +35,10 @@ export interface ProcesarConsignacionResponse {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ConsignacionService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/cajero/consignacion';
+  private apiUrl = `${environment.apiUrl}/cajero/consignacion`;
 
   constructor(
     private http: HttpClient,

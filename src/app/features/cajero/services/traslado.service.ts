@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service'; // ← NUEVO: Importar AuthService
+import { environment } from '../../../../environments/environment';
 
 export interface EnviarTrasladoRequest {
   cajeroOrigen: string;
@@ -64,7 +65,7 @@ export interface AceptarTrasladoResponse {
   providedIn: 'root'
 })
 export class TrasladoService {
-  private apiUrl = 'https://banca-backend-1.onrender.com/api/cajero/traslado';
+  private apiUrl = `${environment.apiUrl}/cajero/traslado`;
 
   constructor(
     private http: HttpClient,

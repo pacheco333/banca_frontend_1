@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './informacion-personal.component.html',
 })
-export class InformacionPersonalComponent implements OnInit {
+export class InformacionPersonalComponent implements OnInit, OnChanges {
   @Input() datosIniciales: any;
   @Output() formChange = new EventEmitter();
   @Output() nextTab = new EventEmitter();
@@ -42,7 +42,7 @@ export class InformacionPersonalComponent implements OnInit {
       ]],
       fechaNacimiento: ['', [
         Validators.required,
-        this.validarEdadMinima(18) // NUEVO: Validar edad mínima
+        this.validarEdadMinima(18)
       ]],
       fechaExpedicion: ['', [
         Validators.required,
@@ -67,7 +67,7 @@ export class InformacionPersonalComponent implements OnInit {
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
       ]],
       segundoApellido: ['', [
-        Validators.minLength(2), // NUEVO: Agregado minLength
+        Validators.minLength(2),
         Validators.maxLength(50),
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/)
       ]],
@@ -78,12 +78,10 @@ export class InformacionPersonalComponent implements OnInit {
       grupoEtnico: ['', Validators.required],
     });
 
-    // Revalidar fechaExpedicion cuando cambia fechaNacimiento
     this.form.get('fechaNacimiento')?.valueChanges.subscribe(() => {
       this.form.get('fechaExpedicion')?.updateValueAndValidity();
     });
 
-    // NUEVO: Validar otraNacionalidad cuando nacionalidad es "Otra"
     this.form.get('nacionalidad')?.valueChanges.subscribe(valor => {
       const otraNacionalidadControl = this.form.get('otraNacionalidad');
       if (valor === 'Otra') {
@@ -106,16 +104,23 @@ export class InformacionPersonalComponent implements OnInit {
       this.form.patchValue(this.datosIniciales);
     }
 
- // AUTO-GUARDADO: Emitir datos al padre cada vez que cambie el formulario
-  this.form.valueChanges.subscribe(valores => {
-    const datosTransformados = this.transformarDatos(valores);
-    this.formChange.emit(datosTransformados);
-    console.log('Auto-guardando datos personales...');
-  });
-}
+    this.form.valueChanges.subscribe(valores => {
+      this.formChange.emit(valores);
+      console.log('Auto-guardando datos personales...');
+    });
+  }
 
+  // ESTE MÉTODO DEBE ESTAR AQUÍ, FUERA DEL ngOnInit
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['datosIniciales'] && changes['datosIniciales'].currentValue) {
+      console.log('INFORMACION PERSONAL - Datos recibidos:', this.datosIniciales);
+      console.log('Género:', this.datosIniciales.genero);
+      console.log('Nacionalidad:', this.datosIniciales.nacionalidad);
+      console.log('Grupo Étnico:', this.datosIniciales.grupoEtnico);
+      this.form.patchValue(this.datosIniciales);
+    }
+  }
 
-  // NUEVO: Validar edad mínima
   validarEdadMinima(edadMinima: number) {
     return (control: any) => {
       if (!control.value) return null;
@@ -135,7 +140,7 @@ export class InformacionPersonalComponent implements OnInit {
       if (!control.value) return null;
       const fecha = new Date(control.value);
       const hoy = new Date();
-      hoy.setHours(0, 0, 0, 0); // MEJORA: Ignorar hora
+      hoy.setHours(0, 0, 0, 0);
       fecha.setHours(0, 0, 0, 0);
       return fecha <= hoy ? null : { fechaFutura: true };
     };
@@ -149,7 +154,6 @@ export class InformacionPersonalComponent implements OnInit {
       if (!fechaNacimiento) return null;
       const fechaNac = new Date(fechaNacimiento);
 
-      // MEJORA: La expedición debe ser al menos 16 años después del nacimiento
       const fechaMinimaExpedicion = new Date(fechaNac);
       fechaMinimaExpedicion.setFullYear(fechaNac.getFullYear() + 16);
 
@@ -157,44 +161,23 @@ export class InformacionPersonalComponent implements OnInit {
     };
   }
 
-guardarSeccion() {
-  if (this.form.valid) {
-    // TRANSFORMAR GÉNERO ANTES DE EMITIR
-    const datosTransformados = this.transformarDatos(this.form.value);
-    this.formChange.emit(datosTransformados);
-    this.nextTab.emit();
-    console.log('Datos personales guardados correctamente');
-    alert('Sección de Información Personal guardada correctamente');
-  } else {
-    this.form.markAllAsTouched();
-    const errores = this.obtenerErroresFormulario();
-    if (errores.length > 0) {
-      alert('Por favor corrige los siguientes errores:\n\n' + errores.join('\n'));
+  guardarSeccion() {
+    if (this.form.valid) {
+      this.formChange.emit(this.form.value);
+      this.nextTab.emit();
+      console.log('Datos personales guardados correctamente');
+      alert('Sección de Información Personal guardada correctamente');
     } else {
-      alert('Por favor completa todos los campos obligatorios.');
+      this.form.markAllAsTouched();
+      const errores = this.obtenerErroresFormulario();
+      if (errores.length > 0) {
+        alert('Por favor corrige los siguientes errores:\n\n' + errores.join('\n'));
+      } else {
+        alert('Por favor completa todos los campos obligatorios.');
+      }
     }
   }
-}
 
-// Método para transformar datos antes de enviar
-private transformarDatos(valores: any): any {
-  return {
-    ...valores,
-    // Convertir "Femenino" → "F" y "Masculino" → "M"
-    genero: valores.genero === 'Femenino' ? 'F' : 
-            valores.genero === 'Masculino' ? 'M' : valores.genero,
-    
-    // Convertir "Colombiana" → "Colombiano"
-    nacionalidad: valores.nacionalidad === 'Colombiana' ? 'Colombiano' : valores.nacionalidad,
-    
-    // Convertir "Ninguno" → "Ninguna"
-    grupoEtnico: valores.grupoEtnico === 'Ninguno' ? 'Ninguna' : valores.grupoEtnico
-  };
-}
-
-
-
-  // NUEVO: Obtener lista de errores del formulario
   obtenerErroresFormulario(): string[] {
     const errores: string[] = [];
     Object.keys(this.form.controls).forEach(key => {
@@ -221,7 +204,6 @@ private transformarDatos(valores: any): any {
     return errores;
   }
 
-  // NUEVO: Obtener nombre legible del campo
   obtenerNombreCampo(key: string): string {
     const nombres: { [key: string]: string } = {
       'tipoDocumento': 'Tipo de documento',
@@ -246,7 +228,6 @@ private transformarDatos(valores: any): any {
   soloLetras(event: KeyboardEvent) {
     const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]$/;
     const inputChar = event.key;
-    // MEJORA: Permitir teclas de control
     if (inputChar === 'Backspace' || inputChar === 'Delete' ||
       inputChar === 'Tab' || inputChar === 'ArrowLeft' || inputChar === 'ArrowRight') {
       return;
@@ -259,7 +240,6 @@ private transformarDatos(valores: any): any {
   soloNumeros(event: KeyboardEvent) {
     const pattern = /^[0-9]$/;
     const inputChar = event.key;
-    // MEJORA: Permitir teclas de control
     if (inputChar === 'Backspace' || inputChar === 'Delete' ||
       inputChar === 'Tab' || inputChar === 'ArrowLeft' || inputChar === 'ArrowRight') {
       return;
@@ -269,7 +249,6 @@ private transformarDatos(valores: any): any {
     }
   }
 
-  // NUEVO: Manejar Enter para avanzar al siguiente campo
   onEnterKey(event: KeyboardEvent, siguienteCampoId: string) {
     if (event.key === 'Enter') {
       event.preventDefault();

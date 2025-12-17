@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'; // ← AÑADIR OnInit
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,14 +29,12 @@ import { FactaComponent } from './informacion-factca/informacion-factac.componen
   ],
   templateUrl: './registrar-cliente.component.html',
 })
-export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR OnInit
-  // 🌐 Control de pestañas
+export class RegistrarClienteComponent implements OnInit {
   pestanaActiva: string = 'datos-personales';
   modo: 'nuevo' | 'editar' = 'nuevo';
   idCliente: number | null = null;
   cargando: boolean = false;
 
-  // 🧠 Datos temporales de todos los subformularios
   clienteData: any = {
     datosPersonales: null,
     contacto: null,
@@ -46,7 +44,6 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     facta: null,
   };
 
-  // 🧭 Datos cargados para cada subcomponente
   datosIniciales: any = {
     datosPersonales: null,
     contacto: null,
@@ -56,8 +53,7 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     facta: null,
   };
 
-  // Orden de las pestañas para moverse automáticamente
-  ordenPestanas = [ // ← AÑADIR ESTA VARIABLE
+  ordenPestanas = [
     'datos-personales',
     'contacto-personal',
     'info-laboral',
@@ -68,10 +64,9 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     private asesorService: AsesorService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    // Verificar si estamos en modo edición
     const id = this.route.snapshot.paramMap.get('id');
     if (id && !isNaN(Number(id))) {
       this.modo = 'editar';
@@ -80,66 +75,107 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     }
   }
 
-  cargarClienteExistente(idCliente: number) {
-    this.cargando = true;
-    // Primero necesitas agregar este método al AsesorService
-    // Voy a mostrarte cómo modificarlo después
-    this.asesorService.obtenerClientePorId(idCliente).subscribe({
-      next: (respuesta) => {
-        if (respuesta.success && respuesta.data) {
-          const cliente = respuesta.data;
+cargarClienteExistente(idCliente: number) {
+  this.cargando = true;
+  
+  this.asesorService.obtenerClientePorId(idCliente).subscribe({
+    next: (respuesta) => {
+      console.log('Respuesta del servidor:', respuesta);
 
-          // Organizar datos en la estructura esperada por los subcomponentes
-          this.datosIniciales = {
-            datosPersonales: {
-              tipoDocumento: cliente.tipoDocumento,
-              numeroDocumento: cliente.numeroDocumento,
-              lugarExpedicion: cliente.lugarExpedicion,
-              ciudadNacimiento: cliente.ciudadNacimiento,
-              fechaNacimiento: cliente.fechaNacimiento,
-              fechaExpedicion: cliente.fechaExpedicion,
-              primerNombre: cliente.primerNombre,
-              segundoNombre: cliente.segundoNombre,
-              primerApellido: cliente.primerApellido,
-              segundoApellido: cliente.segundoApellido,
-              genero: cliente.genero,
-              nacionalidad: cliente.nacionalidad,
-              otraNacionalidad: cliente.otraNacionalidad,
-              estadoCivil: cliente.estadoCivil,
-              grupoEtnico: cliente.grupoEtnico,
-            },
-            contacto: cliente.contacto || {},
-            actividad: cliente.actividad || {},
-            laboral: cliente.laboral || {},
-            financiera: cliente.financiera || {},
-            facta: cliente.facta || {}
-          };
+      if (respuesta.success && respuesta.data) {
+        const cliente = respuesta.data;
+        console.log('Datos del cliente completos:', cliente);
 
-          // También actualizar clienteData para validaciones
-          this.clienteData = { ...this.datosIniciales };
-        }
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar cliente:', err);
-        alert('No se pudo cargar el cliente para edición');
-        this.router.navigate(['/asesor/consultar-cliente']);
+        this.datosIniciales = {
+          datosPersonales: {
+            tipoDocumento: cliente.tipoDocumento || '',
+            numeroDocumento: cliente.numeroDocumento || '',
+            lugarExpedicion: cliente.lugarExpedicion || '',
+            ciudadNacimiento: cliente.ciudadNacimiento || '',
+            fechaNacimiento: cliente.fechaNacimiento || '',
+            fechaExpedicion: cliente.fechaExpedicion || '',
+            primerNombre: cliente.primerNombre || '',
+            segundoNombre: cliente.segundoNombre || '',
+            primerApellido: cliente.primerApellido || '',
+            segundoApellido: cliente.segundoApellido || '',
+            genero: cliente.genero || '',
+            nacionalidad: cliente.nacionalidad || '',
+            otraNacionalidad: cliente.otraNacionalidad || '',
+            estadoCivil: cliente.estadoCivil || '',
+            grupoEtnico: cliente.grupoEtnico || '',
+          },
+          contacto: cliente.contacto ? {
+            direccion: cliente.contacto.direccion || '',
+            barrio: cliente.contacto.barrio || '',
+            tipoPais: cliente.contacto.pais === 'Colombia' ? 'Colombia' : 'Otro',
+            pais: cliente.contacto.pais || '',
+            departamento: cliente.contacto.departamento || '',
+            ciudad: cliente.contacto.ciudad || '',
+            telefono: cliente.contacto.telefono || '',
+            correo: cliente.contacto.correo || '',
+            bloqueTorre: cliente.contacto.bloqueTorre || '',
+            aptoCasa: cliente.contacto.aptoCasa || '',
+          } : null,
+          actividad: cliente.actividad ? {
+            profesion: cliente.actividad.profesion || '',
+            ocupacion: cliente.actividad.ocupacion || '',
+            codigoCIIU: cliente.actividad.codigoCIIU || cliente.actividad.codigoCiiu || '',
+            detalleActividad: cliente.actividad.detalleActividad || '',
+            numeroEmpleados: cliente.actividad.numeroEmpleados || 0,
+          } : null,
+          laboral: cliente.laboral ? {
+            nombreEmpresa: cliente.laboral.nombreEmpresa || '',
+            direccionEmpresa: cliente.laboral.direccionEmpresa || '',
+            paisEmpresa: cliente.laboral.paisEmpresa || '',
+            departamentoEmpresa: cliente.laboral.departamentoEmpresa || '',
+            ciudadEmpresa: cliente.laboral.ciudadEmpresa || '',
+            telefonoEmpresa: cliente.laboral.telefonoEmpresa || '',
+            ext: cliente.laboral.ext || '',
+            celularEmpresa: cliente.laboral.celularEmpresa || '',
+            correoLaboral: cliente.laboral.correoLaboral || '',
+          } : null,
+          financiera: cliente.financiera ? {
+            ingresosMensuales: cliente.financiera.ingresosMensuales || '',
+            egresosMensuales: cliente.financiera.egresosMensuales || '',
+            totalActivos: cliente.financiera.totalActivos || '',
+            totalPasivos: cliente.financiera.totalPasivos || '',
+          } : null,
+          facta: cliente.facta ? {
+            esResidenteExtranjero: cliente.facta.esResidenteExtranjero || false,
+            pais: cliente.facta.pais || '',
+          } : null,
+        };
+
+        console.log('DATOS INICIALES MAPEADOS:');
+        console.log('- Datos Personales:', this.datosIniciales.datosPersonales);
+        console.log('- Contacto:', this.datosIniciales.contacto);
+        console.log('- Laboral:', this.datosIniciales.laboral);
+
+        this.clienteData = JSON.parse(JSON.stringify(this.datosIniciales));
         this.cargando = false;
       }
-    });
-  }
+    },
+    error: (err) => {
+      console.error('Error al cargar cliente:', err);
+      alert('No se pudo cargar el cliente para edición');
+      this.router.navigate(['/asesor/consultar-cliente']);
+      this.cargando = false;
+    }
+  });
+}
+
+
 
   cancelarEdicion() {
     if (confirm('¿Estás seguro de que quieres cancelar la edición? Los cambios no guardados se perderán.')) {
       this.router.navigate(['/asesor/consultar-cliente']);
     }
   }
-  // 🔁 Cambiar pestaña manualmente
+
   cambiarPestana(nombre: string) {
     this.pestanaActiva = nombre;
   }
 
-  // ⏭️ Ir a la siguiente pestaña automáticamente
   irASiguientePestanaActual() {
     const indexActual = this.ordenPestanas.indexOf(this.pestanaActiva);
     if (indexActual < this.ordenPestanas.length - 1) {
@@ -147,25 +183,21 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     }
   }
 
-  // 📥 Recibir datos desde los subcomponentes
   actualizarDatos(nombre: string, data: any) {
     this.clienteData[nombre] = data;
     console.log(`✅ Datos actualizados (${nombre}):`, data);
   }
 
-  // 📩 Escuchar evento de "nextTab" desde los subcomponentes
   manejarNextTab() {
     this.irASiguientePestanaActual();
   }
 
-  // ✅ Validar que todo esté diligenciado antes de registrar
   datosCompletos(): boolean {
     return Object.values(this.clienteData).every((seccion) =>
       seccion && Object.keys(seccion).length > 0
     );
   }
 
-  // 🚀 Registrar o actualizar cliente
   registrarCliente() {
     if (!this.datosCompletos()) {
       alert('⚠️ Debes completar todos los módulos antes de ' +
@@ -209,7 +241,6 @@ export class RegistrarClienteComponent implements OnInit { // ← IMPLEMENTAR On
     }
   }
 
-  // Obtener datos iniciales para un subcomponente específico
   obtenerDatosIniciales(nombre: string): any {
     return this.datosIniciales[nombre];
   }

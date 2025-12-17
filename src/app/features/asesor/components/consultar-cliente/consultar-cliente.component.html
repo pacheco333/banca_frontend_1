@@ -10,7 +10,7 @@
     <div class="flex gap-3">
       <input type="text" [(ngModel)]="numeroDocumento" placeholder="Ej: 12345678" [disabled]="buscando" maxlength="11"
         (keypress)="soloNumeros($event)" (keyup.enter)="buscarCliente()"
-        class="w-100 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 disabled:bg-gray-100" />
+        class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 disabled:bg-gray-100" />
 
       <button (click)="buscarCliente()" [disabled]="buscando || !numeroDocumento.trim()"
         class="px-6 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors font-medium cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed">
@@ -110,10 +110,76 @@
           <p class="text-sm text-gray-800">{{ cliente.genero }}</p>
         </div>
       </div>
+
+    <!-- Sección de Cuentas de Ahorro - REDISEÑADA -->
+<div *ngIf="cliente && cuentas.length > 0" class="mt-6 pt-6 border-t border-gray-200">
+  <h3 class="text-lg font-semibold text-gray-800 mb-4">
+    Cuentas de Ahorro Asociadas
+  </h3>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+      <thead class="bg-blue-900 text-white">
+        <tr>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Número de Cuenta</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Saldo</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Estado</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Fecha de Apertura</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let cuenta of cuentas" class="hover:bg-gray-50 transition-colors duration-200">
+          <td class="px-6 py-4 text-sm font-semibold text-gray-800">
+            {{ cuenta.numero_cuenta }}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-800">
+            {{ formatearSaldo(cuenta.saldo) }}
+          </td>
+          <td class="px-6 py-4 text-sm">
+            <span class="px-3 py-1 rounded-md text-xs font-medium border"
+                  [class.bg-green-50]="cuenta.estado_cuenta === 'Activa'"
+                  [class.text-green-700]="cuenta.estado_cuenta === 'Activa'"
+                  [class.border-green-200]="cuenta.estado_cuenta === 'Activa'"
+                  [class.bg-gray-50]="cuenta.estado_cuenta === 'Cerrada'"
+                  [class.text-gray-600]="cuenta.estado_cuenta === 'Cerrada'"
+                  [class.border-gray-200]="cuenta.estado_cuenta === 'Cerrada'">
+              {{ cuenta.estado_cuenta }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-600">
+            {{ cuenta.fecha_apertura | date: 'dd/MM/yyyy' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Resumen de cuentas -->
+  <div class="mt-4 flex gap-6 text-sm text-gray-600">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+      <span>Activas: <span class="font-semibold text-gray-800">{{ contarCuentasPorEstado('Activa') }}</span></span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+      <span>Cerradas: <span class="font-semibold text-gray-800">{{ contarCuentasPorEstado('Cerrada') }}</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje cuando no hay cuentas -->
+<div *ngIf="cliente && cuentas.length === 0" class="mt-6 pt-6 border-t border-gray-200">
+  <p class="text-sm text-gray-500 text-center py-4">
+    Este cliente no tiene cuentas de ahorro registradas.
+  </p>
+</div>
+
+
+
       <div class="mt-6 pt-6 border-t border-gray-200 flex justify-end space-x-4">
         <button [routerLink]="['/asesor/editar-cliente', cliente.id_cliente]"
           class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-          ✏️ Editar Cliente
+          Editar Cliente
         </button>
       </div>
     </div>

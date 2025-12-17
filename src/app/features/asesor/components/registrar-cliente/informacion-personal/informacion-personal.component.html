@@ -188,8 +188,8 @@
         <select id="genero" formControlName="genero" (keydown)="onEnterKey($event, 'nacionalidad')"
           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">Seleccione...</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Femenino">Femenino</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
           <option value="Otro">Otro</option>
         </select>
         <div class="text-red-500 text-xs mt-1" *ngIf="form.get('genero')?.invalid && form.get('genero')?.touched">
@@ -206,7 +206,7 @@
           (keydown)="onEnterKey($event, form.get('nacionalidad')?.value === 'Otra' ? 'otraNacionalidad' : 'estadoCivil')"
           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">Seleccione...</option>
-          <option value="Colombiana">Colombiana</option>
+          <option value="Colombiano">Colombiana</option>
           <option value="Otra">Otra</option>
         </select>
         <div class="text-red-500 text-xs mt-1"
@@ -265,7 +265,7 @@
           <option value="Raizal">Raizal</option>
           <option value="Palenquero">Palenquero</option>
           <option value="Afrocolombiano">Afrocolombiano</option>
-          <option value="Ninguno">Ninguno</option>
+          <option value="Ninguna">Ninguno</option>
         </select>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('grupoEtnico')?.invalid && form.get('grupoEtnico')?.touched">

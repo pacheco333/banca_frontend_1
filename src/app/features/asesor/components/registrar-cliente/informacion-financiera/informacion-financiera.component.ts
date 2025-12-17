@@ -10,35 +10,33 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class InformacionFinancieraComponent implements OnInit {
   form: FormGroup;
+
   @Input() datosIniciales: any;
   @Output() formChange = new EventEmitter();
   @Output() nextTab = new EventEmitter();
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
+      // ✅ ELIMINAR Validators.pattern - type="number" ya valida
       ingresosMensuales: ['', [
         Validators.required,
         Validators.min(0),
-        Validators.max(999999999999),
-        Validators.pattern(/^[0-9]+$/)
+        Validators.max(999999999999)
       ]],
       egresosMensuales: ['', [
         Validators.required,
         Validators.min(0),
-        Validators.max(999999999999),
-        Validators.pattern(/^[0-9]+$/)
+        Validators.max(999999999999)
       ]],
       totalActivos: ['', [
         Validators.required,
         Validators.min(0),
-        Validators.max(999999999999),
-        Validators.pattern(/^[0-9]+$/)
+        Validators.max(999999999999)
       ]],
       totalPasivos: ['', [
         Validators.required,
         Validators.min(0),
-        Validators.max(999999999999),
-        Validators.pattern(/^[0-9]+$/)
+        Validators.max(999999999999)
       ]],
     });
   }
@@ -52,15 +50,15 @@ export class InformacionFinancieraComponent implements OnInit {
     // 🔄 AUTO-GUARDADO: Emitir datos al padre cada vez que cambie el formulario
     this.form.valueChanges.subscribe(valores => {
       this.formChange.emit(valores);
-      console.log('Auto-guardando información financiera...');
+      console.log('Auto-guardando información financiera...', valores);
     });
   }
-
 
   guardarSeccion() {
     if (this.form.valid) {
       this.formChange.emit(this.form.value);
       this.nextTab.emit();
+      console.log('✅ Datos financieros guardados:', this.form.value);
       alert('✅ Datos financieros guardados correctamente');
     } else {
       this.form.markAllAsTouched();
@@ -70,6 +68,13 @@ export class InformacionFinancieraComponent implements OnInit {
       } else {
         alert('⚠️ Por favor completa todos los campos obligatorios.');
       }
+      console.log('❌ Formulario inválido:', this.form.errors);
+      console.log('Estado de campos:', {
+        ingresosMensuales: this.form.get('ingresosMensuales')?.errors,
+        egresosMensuales: this.form.get('egresosMensuales')?.errors,
+        totalActivos: this.form.get('totalActivos')?.errors,
+        totalPasivos: this.form.get('totalPasivos')?.errors
+      });
     }
   }
 
@@ -84,9 +89,6 @@ export class InformacionFinancieraComponent implements OnInit {
         }
         if (control.errors?.['min']) {
           errores.push(`- ${nombreCampo} debe ser mayor o igual a 0`);
-        }
-        if (control.errors?.['pattern']) {
-          errores.push(`- ${nombreCampo} solo acepta números`);
         }
       }
     });

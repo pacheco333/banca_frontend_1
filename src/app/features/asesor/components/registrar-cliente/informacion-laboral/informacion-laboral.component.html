@@ -9,8 +9,8 @@
         </label>
         <input id="nombreEmpresa" type="text" formControlName="nombreEmpresa"
           (keydown)="onEnterKey($event, 'direccionEmpresa')" maxlength="200"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: Tech Solutions S.A.S">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Ej: Tech Solutions S.A.S">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('nombreEmpresa')?.invalid && form.get('nombreEmpresa')?.touched">
           <span *ngIf="form.get('nombreEmpresa')?.errors?.['required']">Campo obligatorio (mínimo 3 caracteres)</span>
@@ -26,8 +26,8 @@
         </label>
         <input id="direccionEmpresa" type="text" formControlName="direccionEmpresa"
           (keydown)="onEnterKey($event, 'paisEmpresa')" maxlength="200"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: Calle 100 #20-30">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Ej: Calle 100 #20-30">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('direccionEmpresa')?.invalid && form.get('direccionEmpresa')?.touched">
           <span *ngIf="form.get('direccionEmpresa')?.errors?.['required']">Campo obligatorio (mínimo 5
@@ -55,8 +55,8 @@
           País de la Empresa <span class="text-red-500">*</span>
         </label>
         <input type="text" formControlName="paisEmpresa" (keypress)="soloLetras($event)" maxlength="100"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escribe el país">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Escribe el país">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('paisEmpresa')?.invalid && form.get('paisEmpresa')?.touched">
           Campo obligatorio
@@ -77,8 +77,8 @@
         <!-- INPUT para otros países -->
         <input *ngIf="!esColombiaEmpresa()" type="text" formControlName="departamentoEmpresa"
           (keypress)="soloLetras($event)" maxlength="100"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escribe el departamento/estado">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Escribe el departamento/estado">>
 
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('departamentoEmpresa')?.invalid && form.get('departamentoEmpresa')?.touched">
@@ -101,8 +101,8 @@
         <!-- INPUT para otros países -->
         <input *ngIf="!esColombiaEmpresa()" type="text" formControlName="ciudadEmpresa" (keypress)="soloLetras($event)"
           maxlength="100"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escribe la ciudad">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Escribe la ciudad">>
 
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('ciudadEmpresa')?.invalid && form.get('ciudadEmpresa')?.touched">
@@ -118,8 +118,8 @@
         </label>
         <input id="telefonoEmpresa" type="text" formControlName="telefonoEmpresa" (keypress)="soloNumeros($event)"
           (keydown)="onEnterKey($event, 'ext')" maxlength="15"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: 6041234567">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Ej: 6041234567">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('telefonoEmpresa')?.invalid && form.get('telefonoEmpresa')?.touched">
           <span *ngIf="form.get('telefonoEmpresa')?.errors?.['required']">Campo obligatorio (mínimo 7 dígitos)</span>
@@ -135,8 +135,8 @@
         </label>
         <input id="ext" type="text" formControlName="ext" (keypress)="soloNumeros($event)"
           (keydown)="onEnterKey($event, 'celularEmpresa')" maxlength="10"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Opcional">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Opcional">>
         <div class="text-red-500 text-xs mt-1" *ngIf="form.get('ext')?.invalid && form.get('ext')?.touched">
           <span *ngIf="form.get('ext')?.errors?.['minlength']">Mínimo 1 dígito</span>
           <span *ngIf="form.get('ext')?.errors?.['pattern']">Solo números</span>
@@ -150,8 +150,8 @@
         </label>
         <input id="celularEmpresa" type="text" formControlName="celularEmpresa" (keypress)="soloNumeros($event)"
           (keydown)="onEnterKey($event, 'correoLaboral')" maxlength="15"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: 3001234567">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Ej: 3001234567">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('celularEmpresa')?.invalid && form.get('celularEmpresa')?.touched">
           <span *ngIf="form.get('celularEmpresa')?.errors?.['required']">Campo obligatorio (10-15 dígitos)</span>
@@ -166,8 +166,8 @@
           Correo Laboral <span class="text-red-500">*</span>
         </label>
         <input id="correoLaboral" type="email" formControlName="correoLaboral" maxlength="100"
-          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: usuario@empresa.com">
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+          placeholder="Ej: usuario@empresa.com">>
         <div class="text-red-500 text-xs mt-1"
           *ngIf="form.get('correoLaboral')?.invalid && form.get('correoLaboral')?.touched">
           <span *ngIf="form.get('correoLaboral')?.errors?.['required']">Campo obligatorio</span>
